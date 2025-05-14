@@ -26,13 +26,90 @@
                     </div>
                 </div>
                 <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-                    @foreach ($video as $video)
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-{{ $video->category }}">
-                            <video id="videoPlayer" width="100%" controls muted>
+                    @foreach ($video as $videoItem)
+                        <div class="col-lg-4 col-md-6 portfolio-item filter-{{ $videoItem->category }}">
+                            {{-- <video id="videoPlayer" width="100%" controls muted>
                                 <source src="{{ asset('storage/' . $video->video) }}" type="video/mp4">
                                 আপনার ব্রাউজার এই ভিডিও ট্যাগটি সমর্থন করে না।
-                            </video>
-                            
+                            </video> --}}
+                              <div class="portfolio-wrap" style="position: relative; overflow: hidden;">
+
+                                        {{-- Video Preview --}}
+                                        @if (!empty($videoItem->video))
+                                            <video style="width: 100%; height: 400px; object-fit: cover;" muted controls>
+                                                <source src="{{ asset('storage/' . $videoItem->video) }}"
+                                                    type="video/mp4">
+                                                {{ translate('আপনার ব্রাউজার এই ভিডিও ট্যাগটি সমর্থন করে না।', 'Your browser does not support the video tag.') }}
+                                            </video>
+                                        @elseif (!empty($videoItem->link))
+                                            @php
+                                                $youtubeId = null;
+                                                if (strpos($videoItem->link, 'youtu.be/') !== false) {
+                                                    $youtubeId = substr(strrchr($videoItem->link, '/'), 1);
+                                                } elseif (strpos($videoItem->link, 'watch?v=') !== false) {
+                                                    parse_str(parse_url($videoItem->link, PHP_URL_QUERY), $query);
+                                                    $youtubeId = $query['v'] ?? null;
+                                                }
+                                            @endphp
+
+                                            @if ($youtubeId)
+                                                <div
+                                                    style="width: 100%; height: 400px; position: relative; overflow: hidden;">
+                                                    <iframe src="https://www.youtube.com/embed/{{ $youtubeId }}"
+                                                        style="width: 100%; height: 100%; border: 0;"
+                                                        title="{{ translate($videoItem->title, $videoItem->title_en) }}"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                        allowfullscreen>
+                                                    </iframe>
+                                                </div>
+                                            @endif
+                                        @endif
+
+
+                                        <div class="portfolio-info ">
+                                            <h4><strong>{{ translate($videoItem->title, $videoItem->title_en) }}</strong>
+                                            </h4>
+                                            {{-- <p>{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}</p> --}}
+
+                                            @php
+                                                $titleHtml =
+                                                    "<div style='text-align: center;'>
+                                                                  <strong>" .
+                                                    e(translate($videoItem->title, $videoItem->title_en)) .
+                                                    "</strong><br>" .
+                                                    e(translate($videoItem->sub_title, $videoItem->sub_title_en)) .
+                                                    "<br><span style='font-size: 14px;'>" .
+                                                    e(translate($videoItem->description, $videoItem->description_en)) .
+                                                    "</span>
+                                                    </div>";
+                                            @endphp
+
+                                            @if (!empty($videoItem->video))
+                                                <a href="{{ asset('storage/' . $videoItem->video) }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+		<path fill="#000" d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10s10-4.486 10-10S17.514 2 12 2m0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8s8 3.589 8 8s-3.589 8-8 8" />
+		<path fill="#000" d="m9 17l8-5l-8-5z" />
+	</svg>
+                                                </a>
+                                            @elseif (!empty($youtubeId))
+                                                <a href="https://www.youtube.com/watch?v={{ $youtubeId }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+		<path fill="#000" d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10s10-4.486 10-10S17.514 2 12 2m0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8s8 3.589 8 8s-3.589 8-8 8" />
+		<path fill="#000" d="m9 17l8-5l-8-5z" />
+	</svg>
+                                                </a>
+                                            @endif
+                                        </div>
+
+
+                                    </div>
+
                         </div>
                     @endforeach
                 </div>
@@ -62,6 +139,11 @@
                 });
             });
         });
+    });
+</script>
+<script>
+       let lightbox = GLightbox({
+        selector: '.portfolio-lightbox'
     });
 </script>
 @endpush

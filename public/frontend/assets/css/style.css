@@ -1247,6 +1247,7 @@ section {
 
 .portfolio .portfolio-item {
   margin-bottom: 30px;
+    position: relative;
 }
 
 .portfolio .portfolio-item .portfolio-info {
@@ -2263,4 +2264,22 @@ font-size: 13px;
 
     .nav-tabs .nav-link:hover {
         color: #007bff; /* Change color on hover */
+    }
+
+
+    .view_more{
+
+font-family: "Raleway", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 4px;
+    transition: 0.5s;
+    line-height: 1;
+    color: #fff;
+    animation-delay: 0.8s;
+    background: purple;
+    margin-top: 15px;
     }

@@ -225,6 +225,13 @@ class PermissionSeeder extends Seeder
                  Permission::insert(['module_id' => '6', 'name' => 'Edit donation', 'slug' => 'donation.edit', 'status' => 1, 'created_at' => now()]);
                  Permission::insert(['module_id' => '6', 'name' => 'delete donation', 'slug' => 'donation.destroy', 'status' => 1, 'created_at' => now()]);
 
+                         /** Note Management */
+                 Permission::insert(['module_id' => '6', 'name' => 'View note', 'slug' => 'note.index', 'status' => 1, 'created_at' => now()]);
+                 Permission::insert(['module_id' => '6', 'name' => 'Show note', 'slug' => 'note.show', 'status' => 1, 'created_at' => now()]);
+                 Permission::insert(['module_id' => '6', 'name' => 'Add note', 'slug' => 'note.create', 'status' => 1, 'created_at' => now()]);
+                 Permission::insert(['module_id' => '6', 'name' => 'Edit note', 'slug' => 'note.edit', 'status' => 1, 'created_at' => now()]);
+                 Permission::insert(['module_id' => '6', 'name' => 'delete note', 'slug' => 'note.destroy', 'status' => 1, 'created_at' => now()]);
+
 
     }
 }

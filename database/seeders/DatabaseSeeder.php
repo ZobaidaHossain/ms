@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             SupportSeeder::class,
             ZoneSeeder::class,
             DonationSeeder::class,
+            NoteSeeder::class,
         ]);
     }
 }

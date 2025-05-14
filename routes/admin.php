@@ -23,6 +23,7 @@ use App\Http\Controllers\backend\HelpController;
 use App\Http\Controllers\backend\DescriptionController;
 use App\Http\Controllers\backend\DonationController;
 use App\Http\Controllers\backend\IntroductionController;
+use App\Http\Controllers\backend\NoteController;
 use App\Http\Controllers\backend\OrganizationController;
 use App\Http\Controllers\backend\PhotoController;
 use App\Http\Controllers\backend\SupportController;
@@ -88,6 +89,7 @@ Route::group(['middleware' => ['auth:sanctum'],'as' => 'admin.'],  function () {
     Route::resource('/zone', ZoneController::class);
     Route::resource('/project', ProjectController::class);
     Route::resource('/donation', DonationController::class);
+    Route::resource('/note',NoteController::class);
 });
 
 

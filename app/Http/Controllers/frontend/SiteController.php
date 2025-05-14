@@ -26,6 +26,7 @@ use App\Models\Help;
 use App\Models\Photo;
 use App\Models\Organization;
 use App\Models\Introduction;
+use App\Models\Note;
 use App\Models\Project;
 use App\Models\Support;
 use App\Models\Zone;
@@ -47,14 +48,15 @@ class SiteController extends Controller
     $data['teams'] = Team::where('status', 1)->get();
     $data['heading'] = Heading::where('status', 1)->first();
     $data['social'] = Social::where('status', 1)->first();
-    // $data['gallery'] = Gallery::where('status', 1)->get();
+    $data['gallery'] = Gallery::where('status', 1)->get();
     $data['video'] = Video::where('status', 1)->get();
     $data['executive'] = Executive::where('status', 1)->get();
     $data['contract'] = Contract::where('status', 1)->first();
     $data['help'] = Help::where('status', 1)->get();
     $data['introduction'] = Introduction::where('status', 1)->first();
     $data['donation']= Donation::where('status',1)->first();
-
+   $data['support'] = Support::where('status', 1)->first();
+      $data['note'] = Note::where('status', 1)->first();
 
 
 $data['training'] = Gallery::where('status', 1)

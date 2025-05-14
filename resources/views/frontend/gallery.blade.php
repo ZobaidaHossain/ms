@@ -31,8 +31,8 @@
                             <div class="portfolio-info">
                                 <h4>{{ translate($galleryItem->title, $galleryItem->title_en) }}</h4>
                                 <p>{{ translate($galleryItem->sub_title, $galleryItem->sub_title_en) }}</p>
-                                <a href="{{ asset('storage/' . $galleryItem->image) }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="{{ translate($galleryItem->description, $galleryItem->description_en) }}"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+                                <a href="{{ asset('storage/' . $galleryItem->image) }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="{{ translate($galleryItem->description, $galleryItem->description_en) }}"><i class="bx bx-link"></i></a>
+                             
                             </div>
                         </div>
                     @endforeach

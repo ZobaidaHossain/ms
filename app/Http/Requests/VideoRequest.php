@@ -21,6 +21,7 @@ class VideoRequest extends FormRequest
             'video' => 'nullable|file|mimes:mp4,mov,avi',
             'title_en' => 'nullable|string',
             'sub_title_en' => 'nullable|string',
+            'description'=>'nullable',
             'description_en'=>'nullable',
             'link'     => 'nullable|url',
         ];

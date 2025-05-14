@@ -14,7 +14,8 @@
                             <div class="container">
 
                                 <h2 class="animate__animated animate__fadeInDown">
-                                    <span>{{ translate($slider->title, $slider->title_en) }}</span></h2>
+                                    <span>{{ translate($slider->title, $slider->title_en) }}</span>
+                                </h2>
                                 <p style="font-size:20px;"class="animate__animated animate__fadeInUp">
                                     {{ translate($slider->sub_title, $slider->sub_title_en) }}</p>
                                 <a href="#about"
@@ -320,7 +321,7 @@
                                             class="portfolio-lightbox preview-link"
                                             title="{{ translate($item->description, $item->description_en) }}"><i
                                                 class="bx bx-link"></i></a>
-                                        {{-- <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a> --}}
+
                                     </div>
                                 </div>
                             @endforeach
@@ -339,7 +340,7 @@
                                             class="portfolio-lightbox preview-link"
                                             title="{{ translate($item->description, $item->description_en) }}"><i
                                                 class="bx bx-link"></i></a>
-                                        {{-- <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a> --}}
+
                                     </div>
                                 </div>
                             @endforeach
@@ -358,12 +359,16 @@
                                             class="portfolio-lightbox preview-link"
                                             title="{{ translate($item->description, $item->description_en) }}"><i
                                                 class="bx bx-link"></i></a>
-                                        {{-- <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a> --}}
+
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="{{ route('gallery') }}" class="view_more ">{{ translate('আরো দেখুন', 'View More') }}
+                        <i class="fa-solid fa-arrow-right"></i> </a>
                 </div>
             </div>
         </section>
@@ -412,10 +417,13 @@
                 <!-- Video Tab Content (Bootstrap) -->
                 <div class="tab-content pt-4" id="videoTabContent">
                     <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tabs">
+
                         <div class="row portfolio-container">
                             @foreach ($allGallery_Video as $videoItem)
                                 <div class="col-lg-4 col-md-6 portfolio-item filter-{{ $videoItem->category }}">
                                     <div class="portfolio-wrap" style="position: relative; overflow: hidden;">
+
+                                        {{-- Video Preview --}}
                                         @if (!empty($videoItem->video))
                                             <video style="width: 100%; height: 400px; object-fit: cover;" muted controls>
                                                 <source src="{{ asset('storage/' . $videoItem->video) }}"
@@ -432,6 +440,7 @@
                                                     $youtubeId = $query['v'] ?? null;
                                                 }
                                             @endphp
+
                                             @if ($youtubeId)
                                                 <div
                                                     style="width: 100%; height: 400px; position: relative; overflow: hidden;">
@@ -445,41 +454,71 @@
                                             @endif
                                         @endif
 
-                                        <div class="portfolio-info">
-                                            <h4>{{ translate($videoItem->title, $videoItem->title_en) }}</h4>
-                                            <p>{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}</p>
+
+                                        <div class="portfolio-info ">
+                                            <h4><strong>{{ translate($videoItem->title, $videoItem->title_en) }}</strong>
+                                            </h4>
+                                            {{-- <p>{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}</p> --}}
+
+                                            @php
+                                                $titleHtml =
+                                                    "<div style='text-align: center;'>
+                                                                  <strong>" .
+                                                    e(translate($videoItem->title, $videoItem->title_en)) .
+                                                    '</strong><br>' .
+                                                    e(translate($videoItem->sub_title, $videoItem->sub_title_en)) .
+                                                    "<br><span style='font-size: 14px;'>" .
+                                                    e(translate($videoItem->description, $videoItem->description_en)) .
+                                                    "</span>
+                                                    </div>";
+                                            @endphp
 
                                             @if (!empty($videoItem->video))
-                                                <a href="#" class="preview-link open-video-modal" data-type="video"
-                                                    data-video="{{ asset('storage/' . $videoItem->video) }}"
-                                                    data-title="{{ translate($videoItem->title, $videoItem->title_en) }}"
-                                                    data-subtitle="{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}"
-                                                    data-description="{{ translate($videoItem->description, $videoItem->description_en) }}">
-                                                    <i class='bx bx-play-circle'></i>
+                                                <a href="{{ asset('storage/' . $videoItem->video) }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                    {{-- <i class='bx bx-link'></i> --}}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill="#000"
+                                                            d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10s10-4.486 10-10S17.514 2 12 2m0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8s8 3.589 8 8s-3.589 8-8 8" />
+                                                        <path fill="#000" d="m9 17l8-5l-8-5z" />
+                                                    </svg>
+
                                                 </a>
                                             @elseif (!empty($youtubeId))
-                                                <a href="#" class="preview-link open-video-modal"
-                                                    data-type="youtube"
-                                                    data-video="https://www.youtube.com/embed/{{ $youtubeId }}"
-                                                    data-title="{{ translate($videoItem->title, $videoItem->title_en) }}"
-                                                    data-subtitle="{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}"
-                                                    data-description="{{ translate($videoItem->description, $videoItem->description_en) }}">
-                                                    <i class='bx bx-play-circle'></i>
+                                                <a href="https://www.youtube.com/watch?v={{ $youtubeId }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                    {{-- <i class='bx bx-link'></i> --}}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill="#000"
+                                                            d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10s10-4.486 10-10S17.514 2 12 2m0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8s8 3.589 8 8s-3.589 8-8 8" />
+                                                        <path fill="#000" d="m9 17l8-5l-8-5z" />
+                                                    </svg>
+
+
                                                 </a>
                                             @endif
-
-
                                         </div>
+
+
                                     </div>
                                 </div>
                             @endforeach
                         </div>
+
                     </div>
                     <div class="tab-pane fade" id="training" role="tabpanel" aria-labelledby="training-tabs">
                         <div class="row portfolio-container">
                             @foreach ($training_Video as $videoItem)
                                 <div class="col-lg-4 col-md-6 portfolio-item filter-{{ $videoItem->category }}">
                                     <div class="portfolio-wrap" style="position: relative; overflow: hidden;">
+
+                                        {{-- Video Preview --}}
                                         @if (!empty($videoItem->video))
                                             <video style="width: 100%; height: 400px; object-fit: cover;" muted controls>
                                                 <source src="{{ asset('storage/' . $videoItem->video) }}"
@@ -496,6 +535,7 @@
                                                     $youtubeId = $query['v'] ?? null;
                                                 }
                                             @endphp
+
                                             @if ($youtubeId)
                                                 <div
                                                     style="width: 100%; height: 400px; position: relative; overflow: hidden;">
@@ -509,32 +549,43 @@
                                             @endif
                                         @endif
 
-                                        <div class="portfolio-info">
-                                            <h4>{{ translate($videoItem->title, $videoItem->title_en) }}</h4>
-                                            <p>{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}</p>
+
+                                        <div class="portfolio-info ">
+                                            <h4><strong>{{ translate($videoItem->title, $videoItem->title_en) }}</strong>
+                                            </h4>
+                                            {{-- <p>{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}</p> --}}
+
+                                            @php
+                                                $titleHtml =
+                                                    "<div style='text-align: center;'>
+                                                                  <strong>" .
+                                                    e(translate($videoItem->title, $videoItem->title_en)) .
+                                                    '</strong><br>' .
+                                                    e(translate($videoItem->sub_title, $videoItem->sub_title_en)) .
+                                                    "<br><span style='font-size: 14px;'>" .
+                                                    e(translate($videoItem->description, $videoItem->description_en)) .
+                                                    "</span>
+                                                    </div>";
+                                            @endphp
 
                                             @if (!empty($videoItem->video))
-                                                <a href="#" class="preview-link open-video-modal" data-type="video"
-                                                    data-video="{{ asset('storage/' . $videoItem->video) }}"
-                                                    data-title="{{ translate($videoItem->title, $videoItem->title_en) }}"
-                                                    data-subtitle="{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}"
-                                                    data-description="{{ translate($videoItem->description, $videoItem->description_en) }}">
-                                                    <i class='bx bx-play-circle'></i>
+                                                <a href="{{ asset('storage/' . $videoItem->video) }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                    <i class='bx bx-link'></i>
                                                 </a>
                                             @elseif (!empty($youtubeId))
-                                                <a href="#" class="preview-link open-video-modal"
-                                                    data-type="youtube"
-                                                    data-video="https://www.youtube.com/embed/{{ $youtubeId }}"
-                                                    data-title="{{ translate($videoItem->title, $videoItem->title_en) }}"
-                                                    data-subtitle="{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}"
-                                                    data-description="{{ translate($videoItem->description, $videoItem->description_en) }}">
-
-                                                    <i class='bx bx-play-circle'></i>
+                                                <a href="https://www.youtube.com/watch?v={{ $youtubeId }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                    <i class='bx bx-link'></i>
                                                 </a>
                                             @endif
-
-
                                         </div>
+
+
                                     </div>
                                 </div>
                             @endforeach
@@ -545,6 +596,8 @@
                             @foreach ($awareness_Video as $videoItem)
                                 <div class="col-lg-4 col-md-6 portfolio-item filter-{{ $videoItem->category }}">
                                     <div class="portfolio-wrap" style="position: relative; overflow: hidden;">
+
+                                        {{-- Video Preview --}}
                                         @if (!empty($videoItem->video))
                                             <video style="width: 100%; height: 400px; object-fit: cover;" muted controls>
                                                 <source src="{{ asset('storage/' . $videoItem->video) }}"
@@ -561,6 +614,7 @@
                                                     $youtubeId = $query['v'] ?? null;
                                                 }
                                             @endphp
+
                                             @if ($youtubeId)
                                                 <div
                                                     style="width: 100%; height: 400px; position: relative; overflow: hidden;">
@@ -574,31 +628,43 @@
                                             @endif
                                         @endif
 
-                                        <div class="portfolio-info">
-                                            <h4>{{ translate($videoItem->title, $videoItem->title_en) }}</h4>
-                                            <p>{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}</p>
+
+                                        <div class="portfolio-info ">
+                                            <h4><strong>{{ translate($videoItem->title, $videoItem->title_en) }}</strong>
+                                            </h4>
+                                            {{-- <p>{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}</p> --}}
+
+                                            @php
+                                                $titleHtml =
+                                                    "<div style='text-align: center;'>
+                                                                  <strong>" .
+                                                    e(translate($videoItem->title, $videoItem->title_en)) .
+                                                    '</strong><br>' .
+                                                    e(translate($videoItem->sub_title, $videoItem->sub_title_en)) .
+                                                    "<br><span style='font-size: 14px;'>" .
+                                                    e(translate($videoItem->description, $videoItem->description_en)) .
+                                                    "</span>
+                                                    </div>";
+                                            @endphp
 
                                             @if (!empty($videoItem->video))
-                                                <a href="#" class="preview-link open-video-modal" data-type="video"
-                                                    data-video="{{ asset('storage/' . $videoItem->video) }}"
-                                                    data-title="{{ translate($videoItem->title, $videoItem->title_en) }}"
-                                                    data-subtitle="{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}"
-                                                    data-description="{{ translate($videoItem->description, $videoItem->description_en) }}">
-                                                    <i class='bx bx-play-circle'></i>
+                                                <a href="{{ asset('storage/' . $videoItem->video) }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                    <i class='bx bx-link'></i>
                                                 </a>
                                             @elseif (!empty($youtubeId))
-                                                <a href="#" class="preview-link open-video-modal"
-                                                    data-type="youtube"
-                                                    data-video="https://www.youtube.com/embed/{{ $youtubeId }}"
-                                                    data-title="{{ translate($videoItem->title, $videoItem->title_en) }}"
-                                                    data-subtitle="{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}"
-                                                    data-description="{{ translate($videoItem->description, $videoItem->description_en) }}">
-                                                    <i class='bx bx-play-circle'></i>
+                                                <a href="https://www.youtube.com/watch?v={{ $youtubeId }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                    <i class='bx bx-link'></i>
                                                 </a>
                                             @endif
-
-
                                         </div>
+
+
                                     </div>
                                 </div>
                             @endforeach
@@ -609,6 +675,8 @@
                             @foreach ($financial_Video as $videoItem)
                                 <div class="col-lg-4 col-md-6 portfolio-item filter-{{ $videoItem->category }}">
                                     <div class="portfolio-wrap" style="position: relative; overflow: hidden;">
+
+                                        {{-- Video Preview --}}
                                         @if (!empty($videoItem->video))
                                             <video style="width: 100%; height: 400px; object-fit: cover;" muted controls>
                                                 <source src="{{ asset('storage/' . $videoItem->video) }}"
@@ -625,6 +693,7 @@
                                                     $youtubeId = $query['v'] ?? null;
                                                 }
                                             @endphp
+
                                             @if ($youtubeId)
                                                 <div
                                                     style="width: 100%; height: 400px; position: relative; overflow: hidden;">
@@ -638,62 +707,58 @@
                                             @endif
                                         @endif
 
-                                        <div class="portfolio-info">
-                                            <h4>{{ translate($videoItem->title, $videoItem->title_en) }}</h4>
-                                            <p>{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}</p>
+
+                                        <div class="portfolio-info ">
+                                            <h4><strong>{{ translate($videoItem->title, $videoItem->title_en) }}</strong>
+                                            </h4>
+                                            {{-- <p>{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}</p> --}}
+
+                                            @php
+                                                $titleHtml =
+                                                    "<div style='text-align: center;'>
+                                                                  <strong>" .
+                                                    e(translate($videoItem->title, $videoItem->title_en)) .
+                                                    '</strong><br>' .
+                                                    e(translate($videoItem->sub_title, $videoItem->sub_title_en)) .
+                                                    "<br><span style='font-size: 14px;'>" .
+                                                    e(translate($videoItem->description, $videoItem->description_en)) .
+                                                    "</span>
+                                                    </div>";
+                                            @endphp
 
                                             @if (!empty($videoItem->video))
-                                                <a href="#" class="preview-link open-video-modal" data-type="video"
-                                                    data-video="{{ asset('storage/' . $videoItem->video) }}"
-                                                    data-title="{{ translate($videoItem->title, $videoItem->title_en) }}"
-                                                    data-subtitle="{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}"
-                                                    data-description="{{ translate($videoItem->description, $videoItem->description_en) }}">
-                                                    <i class='bx bx-play-circle'></i>
+                                                <a href="{{ asset('storage/' . $videoItem->video) }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                    <i class='bx bx-link'></i>
                                                 </a>
                                             @elseif (!empty($youtubeId))
-                                                <a href="#" class="preview-link open-video-modal"
-                                                    data-type="youtube"
-                                                    data-video="https://www.youtube.com/embed/{{ $youtubeId }}"
-                                                    data-title="{{ translate($videoItem->title, $videoItem->title_en) }}"
-                                                    data-subtitle="{{ translate($videoItem->sub_title, $videoItem->sub_title_en) }}"
-                                                    data-description="{{ translate($videoItem->description, $videoItem->description_en) }}">
-                                                    <i class='bx bx-play-circle'></i>
+                                                <a href="https://www.youtube.com/watch?v={{ $youtubeId }}"
+                                                    data-gallery="portfolioGallery"
+                                                    class="portfolio-lightbox preview-link"
+                                                    data-title="{{ $titleHtml }}">
+                                                    <i class='bx bx-link'></i>
                                                 </a>
                                             @endif
-
-
                                         </div>
+
+
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
+                <div class="text-center mt-4">
+                    <a href="{{ route('video') }}" class="view_more ">{{ translate('আরো দেখুন', 'View More') }}
+                        <i class="fa-solid fa-arrow-right"></i> </a>
+                </div>
             </div>
         </section>
 
         <!-- Video Modal -->
-        <div id="customVideoModal" class="custom-modal" style="display:none;">
-            <div class="custom-modal-content" style="position: relative;">
-                <span class="custom-close"
-                    style="position: absolute; top: 10px; right: 20px; cursor: pointer;">&times;</span>
-                <h4 id="modalVideoTitle"></h4>
-                <p id="modalVideoSubtitle" style="font-size: 14px;"></p>
 
-                <!-- Video -->
-                <video id="modalVideo" controls autoplay style="width: 100%; max-height: 60vh; display: none;">
-                    <source id="modalVideoSource" src="" type="video/mp4">
-                    {{ __('Your browser does not support the video tag.') }}
-                </video>
-
-                <!-- YouTube iframe -->
-                <iframe id="modalIframe" style="width: 100%; height: 60vh; border: none; display: none;"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-
-                <div class="custom-video-description mt-2" id="modalVideoDesc"></div>
-            </div>
-        </div>
 
         <!-- End Portfolio Section -->
         <!-- ======= Team Section ======= -->
@@ -795,14 +860,16 @@
 
         <!-- Donation Modal -->
         <!-- Donation Modal -->
-      <div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 81rem; width: 100%; height: 500px;">
-        <div class="modal-content position-relative">
-            <!-- Close Button -->
-            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+        {{-- <div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 60rem; width: 100%; height: 500px;">
+                <div class="modal-content position-relative">
+                    <!-- Close Button -->
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
 
-            <div class="modal-body p-4 text-center">
-                <!-- Donation Section -->
+
+                   <div class="modal-body p-4 text-center">
                 <div class="mt-5 position-relative text-center notice-section notice" style="margin-bottom:7rem;">
                     <img src="{{ asset('assets/img/Asset 14@4x.png') }}" alt="Notice Background" class="img-fluid rounded mb-3">
 
@@ -817,9 +884,24 @@
                     </div>
                 </div>
             </div>
+                </div>
+            </div>
+        </div> --}}
+
+        <div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 45rem; width: 100%; height: 500px;">
+                <div class="modal-content position-relative">
+                    <!-- Close Button -->
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                    <div class="d-flex justify-content-center align-items-center" style="height: 100%; overflow: hidden;">
+                        <img src="{{ asset('storage/' . $note->image) }}" class="img-fluid" alt="Donation Image"
+                            style="max-height: 100%; max-width: 100%;">
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
 
 
@@ -865,7 +947,7 @@
                 btn.addEventListener("click", () => {
                     // Remove active class from all buttons
                     videoFilterButtons.forEach((button) => button.classList.remove(
-                    "filter-active"));
+                        "filter-active"));
                     btn.classList.add("filter-active");
 
                     const filter = btn.getAttribute("data-filter");
@@ -873,7 +955,7 @@
                     // Show/Hide portfolio items based on filter
                     videoPortfolioItems.forEach((item) => {
                         if (filter === "*" || item.classList.contains(filter.substring(
-                            1))) {
+                                1))) {
                             item.style.display = "block";
                         } else {
                             item.style.display = "none";
@@ -884,59 +966,8 @@
         });
     </script>
     <script>
-        document.querySelectorAll('.open-video-modal').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const type = this.getAttribute('data-type');
-                const videoSrc = this.getAttribute('data-video');
-                const title = this.getAttribute('data-title');
-                const subtitle = this.getAttribute('data-subtitle');
-                const description = this.getAttribute('data-description');
-
-                const modal = document.getElementById('customVideoModal');
-                const video = document.getElementById('modalVideo');
-                const videoSource = document.getElementById('modalVideoSource');
-                const iframe = document.getElementById('modalIframe');
-
-                document.getElementById('modalVideoTitle').textContent = title;
-                document.getElementById('modalVideoSubtitle').textContent = subtitle;
-                document.getElementById('modalVideoDesc').textContent = description;
-
-                if (type === 'video') {
-                    iframe.style.display = "none";
-                    video.style.display = "block";
-                    videoSource.src = videoSrc;
-                    video.load();
-                } else if (type === 'youtube') {
-                    video.style.display = "none";
-                    iframe.style.display = "block";
-                    iframe.src = videoSrc + "?autoplay=1";
-                }
-
-                modal.style.display = "block";
-            });
+        let lightbox = GLightbox({
+            selector: '.portfolio-lightbox'
         });
-
-        // Close modal
-        document.querySelector('.custom-close').onclick = function() {
-            const modal = document.getElementById('customVideoModal');
-            const video = document.getElementById('modalVideo');
-            const iframe = document.getElementById('modalIframe');
-            modal.style.display = "none";
-            video.pause();
-            iframe.src = ""; // stop YouTube video
-        };
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('customVideoModal');
-            const video = document.getElementById('modalVideo');
-            const iframe = document.getElementById('modalIframe');
-            if (event.target === modal) {
-                modal.style.display = "none";
-                video.pause();
-                iframe.src = "";
-            }
-        };
     </script>
 @endpush
